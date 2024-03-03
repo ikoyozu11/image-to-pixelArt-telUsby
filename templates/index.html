@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Art Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Pixel Art Converter</h1>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="file">Choose an image:</label>
+            <input type="file" name="file" id="file" accept="image/*" required>
+            <br>
+            <input type="submit" value="Convert to Pixel Art">
+        </form>
+
+        {% if original_image %}
+            <div class="result-container">
+                <div class="result-item">
+                    <h2>Original Image</h2>
+                    <img src="data:image/jpeg;base64,{{ original_image }}" alt="Original Image">
+                </div>
+
+                <div class="result-item">
+                    <h2>Pixel Art Image</h2>
+                    <img src="data:image/jpeg;base64,{{ pixel_art_image }}" alt="Pixel Art Image">
+                    <br>
+                    <a href="{{ url_for('download', pixel_art_base64=pixel_art_image) }}" download="pixel_art.jpg">Download Pixel Art</a>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
